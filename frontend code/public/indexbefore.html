@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Node Render Html</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <script src="custom.js"></script>
+    <script>
+        //checkIfUserIsLogin();
+        
+       
+    </script>
+
+    
+
+</head>
+<body>
+    <p>Welcome to my MP2</p>
+    <p id="checkServer"></p>
+
+    <div class="offcanvas offcanvas-end" id="demo" style="width: 50%;">
+        <div class="offcanvas-header">
+          <h1 class="offcanvas-title">Add Profile</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card-body">
+                <form id="registrationForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" />
+                                <label for="inputFirstName">First name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" />
+                                <label for="inputLastName">Last name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="inputPhone" type="number" placeholder="Enter Phone" />
+                        <label for="inputPhone">Phone</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputAdress" type="text" placeholder="Enter Adress" />
+                                <label for="inputAdress">Adress</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputEmail" type="email" placeholder="Enter Email" />
+                                <label for="inputEmail">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 mb-0">
+                        <div class="d-grid"><a class="btn btn-success btn-block" type="button" id="registerUser"  >Create Profile</a></div>
+                    </div>
+                    <h3 class="text-center text-white font-weight-light my-4">Registered Users</h3>
+                                        <table class="table table-striped text-white">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">First Name</th>
+                                                    <th scope="col">Last Name</th>
+                                                    <th scope="col">Phone</th>
+                                                    <th scope="col">Adress</th>
+                                                    <th scope="col">Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="newTable">
+                                                <!-- Table body will be populated dynamically using JavaScript -->
+                                            </tbody>
+                     </table>
+                </form>
+                <center>
+                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo" id="addToMyTable">
+                    Add This Profile 
+                  </button></center>
+            </div>
+        </div>
+      </div>
+      
+      <div class="container-fluid mt-3">
+        <button class="btn btn-primary mb-3 text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+         <h3>+ ADD</h3> 
+        </button>
+      </div>
+    
+    <table class="table table-dark table-striped" id="myTable">
+        <tr class="table-primary">
+            <th>
+                ID
+            </th>
+            <th>
+                Firstname
+            </th>
+            <th>
+                Lastname
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                adress
+            </th>
+            <th>
+                Email
+            </th>
+            
+            <th>
+                Actions
+            </th>
+        </tr>
+    </table>
+
+    <script>
+
+    
+
+      async function callAllPRofiles() {
+
+        const result = await fetch('http://localhost:5000/all-profiles'); //requesting
+        const data = await result.json();
+        
+        const myTable = document.getElementById('myTable');
+        if (data) {
+            for (d of data) {
+            const newRow = myTable.insertRow(myTable.rows.length);
+            const newCell = newRow.insertCell(0);
+            const newCel2 = newRow.insertCell(1);
+            const newCel3 = newRow.insertCell(2);
+            const newCel4 = newRow.insertCell(3);
+            const newCel5 = newRow.insertCell(4);
+            const newCel6 = newRow.insertCell(5);
+            const newCel7 = newRow.insertCell(6);
+            
+            newCell.innerHTML = d.id;
+            newCel2.innerHTML = d.firstname;
+            newCel3.innerHTML = d.lastname;
+            newCel4.innerHTML = d.phone;
+            newCel5.innerHTML = d.adress;
+            newCel6.innerHTML = d.email;
+            newCel7.innerHTML = myButtons(d);
+            }; 
+        } 
+      }
+      
+      function myButtons(obj) {
+        return "<button id='update_"+obj.id+"'' onclick='updateProfile("+obj.id+")' class='btn btn-primary'>Update</button> <button id='delete_"+obj.id+"'' onclick='deleteProfile("+obj.id+")' class='btn btn-danger'>Delete</button>"
+      }
+
+      function updateProfile(id) {
+        window.location.href = '/update/'+id;
+      }
+
+      function deleteProfile(id) {
+        if (confirm("Are you to delete") == true) {
+          
+                fetch('http://localhost:5000/delete-user/'+id)
+                .then(response => response.json())
+                .then(data => {
+                if (data.code=='success') {
+                    console.log('Success:', data);
+                    window.location.href = "http://localhost:3000/";
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+                
+        } else {
+          console.log('not deleted');
+          return;
+        }
+
+      }
+
+      callAllPRofiles();
+
+      
+
+      // add new profile
+      processNewProfile = (event) => {
+        event.preventDefault();
+
+        const webservice_api_url = 'http://localhost:5000/new-profile';
+
+
+        const firstname = document.getElementById('inputFirstName').value;
+        const lastname = document.getElementById('inputLastName').value;
+        const phone = document.getElementById('inputPhone').value;
+        const adress = document.getElementById('inputAdress').value;
+        const email = document.getElementById('inputEmail').value;
+        
+
+
+        const addProfile = {
+            
+            firstname: firstname,
+            lastname: lastname,
+            phone: phone,
+            adress: adress,
+            email: email,
+        };
+
+        const requestOption = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(addProfile),
+        };
+
+        fetch(webservice_api_url, requestOption)
+            .then(response => response.json())
+            .then(addProfile => {
+             console.log('Profile Summary:', addProfile.regNewProfile);
+
+                if (addProfile.code === 'success') {
+                    alert(addProfile.msg);
+
+                    document.getElementById('inputFirstName').value = '';
+                    document.getElementById('inputLastName').value = '';
+                    document.getElementById('inputPhone').value = '';
+                    document.getElementById('inputAdress').value = '';
+                    document.getElementById('inputEmail').value = '';
+
+                   localStorage.setItem('loginUser', JSON.stringify(addProfile.loginUser));
+                   
+
+                } else {
+                    alert(addProfile.msg);
+                }
+            })
+            .catch(error => {
+                console.log('Error in the server')
+            });
+    }
+
+    document.getElementById('registerUser').addEventListener('click', processNewProfile); // DOM para iperform ang function na process new profile
+    let idCount = 1;
+    const updateUserTable = (userData) => {                         
+        const newTable = document.getElementById('newTable');
+        const row = document.createElement('tr');                                      
+        const firstNameCell = document.createElement('td');                            
+        const lastNameCell = document.createElement('td');
+        const phoneCell = document.createElement('td');
+        const adressCell = document.createElement('td');
+        const emailCell = document.createElement('td');
+
+        firstNameCell.textContent = userData.firstname;
+        lastNameCell.textContent = userData.lastname;
+        phoneCell.textContent = userData.phone;
+        adressCell.textContent = userData.adress;
+        emailCell.textContent = userData.email;
+
+        row.appendChild(firstNameCell);                  //display the input in the firstname sa table
+        row.appendChild(lastNameCell);
+        row.appendChild(phoneCell);
+        row.appendChild(adressCell);
+        row.appendChild(emailCell);
+
+
+        newTable.appendChild(row);                       //new row para sa table                  
+    }
+            //update the table galing sa mga data sa input text fields
+        document.getElementById('registerUser').addEventListener('click', (event) => {  
+            updateUserTable({
+                firstname: document.getElementById('inputFirstName').value,
+                lastname: document.getElementById('inputLastName').value,
+                phone: document.getElementById('inputPhone').value,
+                adress: document.getElementById('inputAdress').value,
+                email: document.getElementById('inputEmail').value,
+             });
+        });                                                                     
+            // t0 clone or copy yung data ng offcanvas table sa maintable
+        const cloneDataToMyTable = () => {
+                const newTableRows = document.getElementById('newTable').getElementsByTagName('tr');
+                const myTable = document.getElementById('myTable');
+              
+
+                for (let i = 0; i < newTableRows.length; i++) {
+                    const newRow = myTable.insertRow(myTable.rows.length);
+                    const cells = newTableRows[i].getElementsByTagName('td');   
+                    
+                    const idCountCell = newRow.insertCell(0);  // add ID count cell
+                    idCountCell.innerHTML = idCount++;
+                    const clonedData = {}; // Object to store cloned data
+                   
+                    
+
+                    for (let j = 0; j < cells.length; j++) {
+                        const newCell = newRow.insertCell(j + 1); // Adjusted index to insert cells after the additional column
+                        newCell.innerHTML = cells[j].innerHTML;
+                        clonedData[`column${j + 1}`] = cells[j].innerHTML; // Store data in the clonedData object
+                    }
+                    
+                    // para sa action(update or edit)
+                    const afterEmailCell = newRow.insertCell(cells.length + 1);
+                    afterEmailCell.innerHTML = `<button class='btn btn-danger' onclick='deleteRow(this)'>Delete</button>
+                                        <button class='btn btn-primary' onclick='editRow(this)'>Edit</button>`;
+
+                }
+                
+            };
+
+            // Function to delete the row when the delete button is clicked
+                    function deleteRow(button) {
+                        const row = button.closest('tr');
+                        row.remove();
+                        
+                    }
+
+
+
+         // to call the clonedata function
+         document.addEventListener('DOMContentLoaded', cloneDataToMyTable);
+
+          // tapos DOM (add this profile button)
+         document.getElementById('addToMyTable').addEventListener('click', () => {
+            cloneDataToMyTable();
+            
+        
+            // tapos clear yung off canvas table pag naclone na sa maintable
+        document.getElementById('newTable').innerHTML = '';
+        });
+        
+    
+
+    </script>
+    
+</body>
+</html>
+

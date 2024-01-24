@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ConSyst</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="indexmodified.html">ConSyst</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <form class="d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="indexmodified.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Project Dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Project Tools</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Core Tools
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Reports</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Documents</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Meetings</a>
+                            </nav>
+                        </div>
+                        <!-- Repeat similar code blocks for other sections -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    Start Bootstrap
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Inspection<button class="btn btn-danger ms-2 float-end" data-bs-toggle="offcanvas" data-bs-target="#inspectionFormCanvas"><b>Create Inspection + </b></button></h1>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mt-4">
+                            <thead class="alert-info">
+                                <tr>
+                                    <th>Activity / Inspection Name</th>
+                                    <th>Inspecttion Code</th>
+                                    <th>Description</th>
+                                    <th>Trade</th>
+                                    <th>Inspection Date</th>
+                                    <th>Location</th>
+                                    <th>Responsible Contractor</th>
+                                    <th>Inspector</th>
+                                    <th>Date Closed</th>
+                                    <th>File Upload</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mainInspectionTable">
+                                <!-- Existing or dynamically added rows will go here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Off-canvas form -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="inspectionFormCanvas" aria-labelledby="inspectionFormCanvasLabel" style="width: 80%;">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="inspectionFormCanvasLabel">Create Inspection</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="col-xl-12">
+                                <div class="card mb-12">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Inspection
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-md-12 well">
+                                            <hr style="border-top: 1px dotted #ccc;" />
+                                            <div class="col-md-12">
+                                                <form id="dataForm">
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="activityName">Activity / Inspection Name</label>
+                                                            <input type="text" id="activityName" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="inspectionCode">Inspection Code</label>
+                                                            <input type="text" id="inspectionCode" class="form-control" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="description">Description</label>
+                                                            <input type="text" id="description" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="trade">Trade</label>
+                                                            <input type="text" id="trade" class="form-control" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="inspectionDate">Inspection Date</label>
+                                                            <input type="text" id="inspectionDate" class="form-control" />
+                                                        </div>
+                                                    </div>                      
+                                                    <!-- Repeat the row divs for other pairs of inputs -->
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="location">Location</label>
+                                                            <input type="text" id="location" class="form-control" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="contractor">Responsible Contractor</label>
+                                                            <input type="text" id="contractor" class="form-control" />
+                                                        </div>
+                                                    </div>
+                        
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="inspector">Inspector</label>
+                                                            <input type="text" id="inspector" class="form-control" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="dateClosed">Date Closed</label>
+                                                            <input type="text" id="dateClosed" class="form-control" />
+                                                        </div>
+                                                    </div>
+                        
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <label for="file1">Upload Files</label>
+                                                            <input type="file" name="fileUpload" size="50" id="file1" class="form-control" multiple />
+                                                            <div id="fileDisplay" style="font-size: 14px;"></div> <!-- Display uploaded files -->
+                                                        </div>
+                                                    <center>
+                                                        <button type="button" class="btn btn-danger mt-2" id="addInspection">Add Data</button>
+                                                    </center>
+                                                </form>
+                                            </div>
+                                            <br>
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead class="alert-info">
+                                                            <tr>
+                                                                <th>Activity / Inspection Name</th>
+                                                                <th>Inspection Code</th>
+                                                                <th>Description</th>
+                                                                <th>Trade</th>
+                                                                <th>Inspection Date</th>
+                                                                <th>Location</th>
+                                                                <th>Responsible Contractor</th>
+                                                                <th>Inspector</th>
+                                                                <th>Date Closed</th>
+                                                                <th>File Upload</th> 
+                                                                 
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="inspectionTable"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <canvas id="myOpenItems" width="100%" height="40"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offcanvas-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="saveInspection()"  >Save</button>
+                        </div>
+                    </div>  
+                    <!-- End Off-canvas form -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+
+     <script>
+
+        //sidebar offcanvas
+        window.addEventListener('DOMContentLoaded', event => {
+          
+            const sidebarToggle = document.body.querySelector('#sidebarToggle');
+            if (sidebarToggle) {
+                
+                sidebarToggle.addEventListener('click', event => {
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+            });
+
+
+            
+    processAddInspection = (event) => {
+        event.preventDefault();
+
+        const webservice_api_url = 'http://localhost:5000/add-inspection';
+
+
+        const activityName = document.getElementById('activityName').value;
+        const inspectionCode = document.getElementById('inspectionCode').value;
+        const description = document.getElementById('description').value;
+        const trade = document.getElementById('trade').value;
+        const inspectionDate = document.getElementById('inspectionDate').value;
+        const location = document.getElementById('location').value;
+        const contractor = document.getElementById('contractor').value;
+        const inspector = document.getElementById('inspector').value;
+        const dateClosed = document.getElementById('dateClosed').value;
+        const file1 = document.getElementById('file1').value;
+
+/*
+        //validation if the text field are empty
+            if (!firstname && !lastname && !email && !password && !confirmPassword) {
+            alert('Please enter all fields.');
+            return;
+        }
+
+        //validation if the password is not the same
+        if (password !== confirmPassword) {
+            alert('Password and Confirm Password do not match.');
+            return;
+        }
+*/
+        const data = {
+            
+            activityName: activityName,
+            inspectionCode: inspectionCode,
+            description: description,
+            trade: trade,
+            inspectionDate: inspectionDate,
+            location: location,
+            contractor: contractor,
+            inspector: inspector,
+            dateClosed: dateClosed,
+            file1: file1,
+            };
+/*
+        const requestOption = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(webservice_api_url, requestOption)
+            .then(response => response.json())
+            .then(data => {
+              //  console.log('Response:', data.regInspection);
+
+                if (data.code === 'success') {
+                    alert(data.msg);
+
+                   //document.getElementById('inputFirstName').value = '';
+                   // document.getElementById('inputLastName').value = '';
+                   // document.getElementById('inputEmail').value = '';
+                   // document.getElementById('inputPassword').value = '';
+                   // document.getElementById('inputPasswordConfirm').value = '';
+
+                 //   localStorage.setItem('loginUser', JSON.stringify(data.loginUser));
+                   // window.location.href = 'http://localhost:3000/login';
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => {
+                alert('Error somthin is wrong');
+                });
+*/                
+            }
+
+            document.getElementById('addInspection').addEventListener('click', processAddInspection);
+
+
+        const updateUserTable = (userData) => {
+        const userTableBody = document.getElementById('inspectionTable'); //id ng table
+        const row = document.createElement('tr');                         //para sa row
+        const activityNameCell = document.createElement('td');               
+        const inspectionCodeCell = document.createElement('td');
+        const descriptionCell = document.createElement('td');
+        const tradeCell = document.createElement('td');
+        const inspectionDateCell = document.createElement('td');               
+        const locationCell = document.createElement('td');
+        const contractorCell = document.createElement('td');
+        const inspectorCell = document.createElement('td');
+        const dateClosedCell = document.createElement('td');
+        const file1Cell = document.createElement('td');
+        
+/*
+        //for the edit button
+        const actionCell = document.createElement('td');
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.classList.add('btn', 'btn-warning', 'btn-sm', 'me-1');
+        editButton.addEventListener('click', () => handleEdit(userData));
+
+        // for the delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+        deleteButton.addEventListener('click', () => handleDelete(userData));
+*/
+       
+        
+        //
+
+        activityNameCell.textContent = userData.activityName;
+        inspectionCodeCell.textContent = userData.inspectionCode;
+        descriptionCell.textContent = userData.description;
+        tradeCell.textContent = userData.trade;
+        inspectionDateCell.textContent = userData.inspectionDate;
+        locationCell.textContent = userData.location;
+        contractorCell.textContent = userData.contractor;
+        inspectorCell.textContent = userData.inspector;
+        dateClosedCell.textContent = userData.dateClosed;
+        file1Cell.textContent = userData.file1; // Displaying the password for testing purposes
+
+        row.appendChild(activityNameCell);
+        row.appendChild(inspectionCodeCell);
+        row.appendChild(descriptionCell);
+        row.appendChild(tradeCell);
+        row.appendChild(inspectionDateCell);
+        row.appendChild(locationCell);
+        row.appendChild(contractorCell);
+        row.appendChild(inspectorCell);
+        row.appendChild(dateClosedCell);
+        row.appendChild(file1Cell);
+
+        //for edit delete
+      //  actionCell.appendChild(editButton);
+     //  actionCell.appendChild(deleteButton);
+     //   row.appendChild(actionCell);
+
+        userTableBody.appendChild(row);
+    }
+
+      /*     const promptForEdit = (fieldName, currentValue) => {
+            return prompt(`Edit ${fieldName}:`, currentValue) || currentValue;
+            };
+            
+
+
+        // Function to handle the edit action
+    const handleEdit = (userData) => {
+        // Display an alert with the selected data
+        const editedData = {
+            activityName: promptForEdit('Activity / Inspection Name', userData.activityName),
+            inspectionCode: promptForEdit('Inspection Code', userData.inspectionCode),
+            description: promptForEdit('Description', userData.description),
+            trade: promptForEdit('Trade', userData.trade),
+            inspectionDate: promptForEdit('Inspection Date', userData.inspectionDate),
+            location: promptForEdit('Location', userData.location),
+            contractor: promptForEdit('Responsible Contractor', userData.contractor),
+            inspector: promptForEdit('Inspector', userData.inspector),
+            dateClosed: promptForEdit('Date Closed', userData.dateClosed),
+            file1: promptForEdit('File Upload', userData.file1),
+        };
+
+
+   // Display an alert with the edited data (you can replace this with your logic)
+   alert('Edited Data:\n' + JSON.stringify(editedData, null, 2));
+    };
+
+
+*/
+
+        
+
+
+    document.getElementById('addInspection').addEventListener('click', (event) => {
+        event.preventDefault();
+        const userData = {
+            activityName: document.getElementById('activityName').value,
+            inspectionCode: document.getElementById('inspectionCode').value,
+            description: document.getElementById('description').value,
+            trade: document.getElementById('trade').value,
+            inspectionDate: document.getElementById('inspectionDate').value,
+            location: document.getElementById('location').value,
+            contractor: document.getElementById('contractor').value,
+            inspector: document.getElementById('inspector').value,
+            dateClosed: document.getElementById('dateClosed').value,
+            file1: document.getElementById('file1').value,
+        };
+        updateUserTable(userData);
+    });
+
+    
+    function saveInspection() {
+        // Get the off-canvas table
+        var offCanvasTable = document.getElementById('inspectionTable');
+
+        // Get the main table
+        var mainTable = document.getElementById('mainInspectionTable');
+
+        // Loop through each row in the off-canvas table
+        for (var i = 0; i < offCanvasTable.rows.length; i++) {
+            // Clone the row from the off-canvas table
+            var clonedRow = offCanvasTable.rows[i].cloneNode(true);
+
+            // Append the cloned row to the main table
+            mainTable.appendChild(clonedRow);
+
+            // Extract data from the cloned row
+        const inspectionData = {
+            activityName: clonedRow.cells[0].textContent,
+            inspectionCode: clonedRow.cells[1].textContent,
+            description: clonedRow.cells[2].textContent,
+            trade: clonedRow.cells[3].textContent,
+            inspectionDate: clonedRow.cells[4].textContent,
+            location: clonedRow.cells[5].textContent,
+            contractor: clonedRow.cells[6].textContent,
+            inspector: clonedRow.cells[7].textContent,
+            dateClosed: clonedRow.cells[8].textContent,
+            file1: clonedRow.cells[9].textContent,
+        };
+
+        // Send data to the server
+        fetch('http://localhost:5000/add-inspection', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(inspectionData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data.regInspection);
+                if (data.code === 'success') {
+                    alert(data.msg);
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => {
+                alert('Error: Something went wrong on the server.');
+            });
+    
+            
+    
+              // Clear the off-canvas table
+            offCanvasTable.innerHTML = '';
+
+         //  localStorage.setItem('mainTable')
+        }
+    }
+    
+     </script>
+    
+
+
+
+
+
+
+</body>
+
+</html>
+
