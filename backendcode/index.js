@@ -79,7 +79,7 @@ app.post('/new-profile', (req, res) => {
     const newStatus = newProfile.push(newProfileRecord);
     if (newStatus) {
         res.status(200).json(
-            { code: "success", msg: "profile registration successful", regNewProfile: newProfile }
+            { code: "success", regNewProfile: newProfile }
         );
     } else {
         res.status(400).json(
