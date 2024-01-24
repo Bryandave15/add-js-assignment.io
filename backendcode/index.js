@@ -321,5 +321,99 @@ app.delete('/delete/record/:id', (req, res)=>{
 })
 
 
+const pageContent = [
+    {
+        id:'home',
+        content:'sample content for home page'
+    },
+    {
+        id:'about',
+        content:'sample content for about'
+    },
+]
+
+app.post('/page-content', (req, res)=>{
+   
+   let pageId = req.body.pageContent; 
+   let actualContent = req.body.contentValue;
+
+   newObject = {
+        id: pageId,
+        content:actualContent,
+   } 
+    
+   const contentIndex =  pageContent.findIndex( (obj) => obj.id === pageId );
+   pageContent[contentIndex] = newObject;
+
+   if (pageContent) {
+    res.json(
+        {
+            code : "success",
+            msg : "Saving Done",
+            //obj: pageContent
+        }
+    )
+    } else {
+    res.status(400).json(
+        {
+            code : "failed",
+            msg : "Error encountered while saving home page content"
+        }
+    )
+    }
+
+})
+
+
+app.get('/page-content/:id', (req, res)=>{
+    const pageId = req.params.id;
+
+    const pageFound = pageContent.find( 
+             (page) => {
+                 return pageId === page.id  
+             } 
+     )
+     if (pageFound){
+         res.json(pageFound.content);
+     } else {
+         res.status(400).json("Invalid Id")
+     }
+ })
+
+
+
+//contact-us
+const contactUs = [];
+
+app.post('/contact-us', (req, res) => {
+    let name = req.body.name;
+    let email = req.body.email;
+    let subject = req.body.subject;
+    let message = req.body.message;
+
+
+    contactId = contactUs.length + 1;
+    const contactUsRecord = {
+        contactId: contactId,
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+    }
+
+    const newStatus = contactUs.push(contactUsRecord);
+    if (newStatus) {
+        res.status(200).json(
+            { code: "success", regcontactUs: contactUs }
+        );
+    } else {
+        res.status(400).json(
+            { code: "failed", msg: "messaged error in saving" }
+        );
+    }
+});
+
+
+
 app.listen(5000)
 console.log('Server is running in port 5000')

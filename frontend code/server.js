@@ -19,6 +19,10 @@ app.get('/delete/:profileId', (req, res)=>{
     res.sendFile(__dirname + '/public/delete.html');
 })
 
+app.get('/home', (req, res)=>{
+    res.sendFile(__dirname + '/public/home.html');
+})
+
 
 
 app.get('/about-us', (req, res)=>{

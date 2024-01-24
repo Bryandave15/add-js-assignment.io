@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+    <script src="https://cdn.tiny.cloud/1/bml3jz6t0342cyu15kgoxtc70fa28lcmf1brtir1j2mol8yf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+
+    <style>
+      body {
+          padding-top: 56px; 
+      }
+
+      @media (min-width: 992px) {
+          body {
+              padding-top: 70px; 
+          }
+      }
+
+      .navbar {
+          background-color: #3498db; 
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
+      }
+
+      .navbar-brand {
+          color: #fff; 
+          font-size: 24px; 
+          font-weight: bold; 
+      }
+
+      .navbar-toggler {
+          border-color: #fff; 
+      }
+
+      .navbar-toggler-icon {
+          background-color: #fff; 
+      }
+
+      .navbar-nav .nav-link {
+          color: #fff; 
+          font-weight: bold; 
+          margin: 0 15px; 
+      }
+
+      .navbar-nav .nav-link:hover {
+          color: #f8f9fa; 
+      }
+  </style>
+  </head>
+
+<body>
+ 
+ <!-- Navigation Bar -->
+ <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <a class="navbar-brand" href="#">Your Logo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+              <a class="nav-link" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/about-us">About</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/contact-us">Contact</a>
+          </li>
+      </ul>
+  </div>
+</nav>
+  
+  <!-- Header -->
+  <header class="container-fluid text-center mt-5">
+    <h1>Welcome to Your Website</h1>
+    <p>A short description of your website goes here.</p>
+    <div>
+      <table width="100%" id="dtExample" class="display " cellspacing="0">
+          <thead>
+              <tr>
+                  <th>S.No</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>City</th>
+                  <th>State</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+  </header>
+  
+  <!-- Main Content -->
+  <section class="container mt-4">
+    
+    <div class="row">
+      
+        <div class="col-md-10">
+        <h2>Main Content</h2>
+        <p id="main_p_content" ></p>
+    </div>
+
+    <div class="col-md-2">
+        <h2>Side Content</h2>
+        <p>Your side content goes here.</p>
+    </div>
+
+  
+  </section>
+  
+  <!-- Footer -->
+  <footer class="container-fluid text-center mt-5">
+    <textarea>
+      Welcome to TinyMCE!
+    </textarea>
+    <p>&copy; 2024 Your Website. All Rights Reserved.</p>
+    
+  </footer>
+
+
+  
+</div>
+  
+  <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+ <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js">
+  </script>
+  
+  
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      mergetags_list: [
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
+      ],
+      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+    });
+  </script>
+  
+  <script>
+
+    
+
+async function loadHomePageContent() {
+
+    const result = await fetch('http://localhost:5000/page-content/home'); //requesting
+    const data = await result.json();
+
+    document.getElementById('main_p_content').innerHTML = data;
+
+}
+
+
+
+loadHomePageContent();
+
+
+
+    $(document).ready(function () {
+     fnLoadDataTableInstance()
+        })
+        function fnLoadDataTableInstance() {
+            var dataSource = [
+                { name: 'Bryan', age: 21, city: 'Phillipines', state: 'Metro Manila' },
+                { name: 'GWapo', age: 21, city: 'Pilipinas', state: 'Metro Manila' },
+                { name: 'Gowtham', age: 28, city: 'Coimbatore', state: 'Tamil Nadu' },
+                { name: 'Sudhan', age: 38, city: 'Ooty', state: 'Tamil Nadu' },
+                { name: 'Vignesh', age: 34, city: 'Erode', state: 'Tamil Nadu' },
+                { name: 'CSK', age: 34, city: 'Coimbatore', state: 'Tamil Nadu' },
+                { name: 'Arvind', age: 28, city: 'Coimbatore', state: 'Tamil Nadu' },
+                { name: 'Rahul', age: 38, city: 'Ooty', state: 'Tamil Nadu' },
+                { name: 'Raji', age: 34, city: 'Erode', state: 'Tamil Nadu' },
+                { name: 'Ananthi', age: 34, city: 'Coimbatore', state: 'Tamil Nadu' },
+                { name: 'Bryan', age: 21, city: 'Phillipines', state: 'Metro Manila' },
+                { name: 'Bryan', age: 21, city: 'Phillipines', state: 'Metro Manila' },
+                { name: 'GWapo', age: 21, city: 'Pilipinas', state: 'Metro Manila' },
+                { name: 'Gowtham', age: 28, city: 'Coimbatore', state: 'Tamil Nadu' },
+                { name: 'Sudhan', age: 38, city: 'Ooty', state: 'Tamil Nadu' },
+            ]
+
+            $('#dtExample').DataTable({
+                dom: 'Bfrtip',
+                data: dataSource,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'name' },
+                    { data: 'age' },
+                    { data: 'city' },
+                    { data: 'state' }
+                ],
+
+                "paging": true,
+                "info": true,
+                "language": {
+                    "emptyTable": "No data available"
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+            })
+
+            /*
+              //To check whether the DataTable instance is available or not before we proceed with any operations on it,
+            if($.fn.DataTable.isDataTable('#dtExample')){
+                  alert('dataTable exist')
+                }
+             //To read the dataTable & its data,
+             var dataTable = $('#dtExample').DataTable()
+              var data = dataTable.rows().data()
+
+              //To get the particular row values,
+              var dataTable = $('#dtExample').DataTable()
+              var dataTableRow = dataTable.row('#' + id).data()
+
+              //To update a particular row and redraw the DataTable,
+              var dataTable = $('#dtExample').DataTable()
+              var dataTableRow = dataTable.row('#' + id).data()
+              if(dataTableRow){
+                  dataTableRow['name'] = 'ManiKandan'
+                  dataTable.row('#' + id).data( dataTableRow ).draw()
+              }
+
+              //  To destroy a DataTable,
+              if($.fn.DataTable.isDataTable('#dtExample')){
+                $('#dtExample').DataTable().destroy()
+            }
+
+
+            var dataTable = $('#dtExample').DataTable()
+            var addRow = {
+                name: 'Parvati',
+                age: '42',
+                city: 'Dindugul',
+                state: 'Tamil Nadu'
+            }
+            dataTable.row.add(addRow).draw()
+
+
+            var dataTable = $('#dtExample').DataTable()
+            var rowsToRemove = ['#id1', '#id2', '#id3']
+            dataTable.rows(rowsToRemove).remove().draw()
+            */
+
+            
+        }
+
+
+  </script>
+
+</body>
+</html>
