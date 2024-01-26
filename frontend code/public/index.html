@@ -67,6 +67,21 @@
         .btn-primary h3 {
             color: #ffffff;
         }
+
+        .modal-content {
+        background-color: #343a40; /* Change this to your desired dark background color */
+        color: #ffffff; /* Change this to your desired text color */
+         }
+
+        .modal-header {
+            background-color: #343a40; /* Change this to your desired header background color */
+            color: #ffffff; /* Change this to your desired header text color */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Change this to your desired primary button color */
+            border: none;
+        }
     </style>
 
     <!-- Bootstrap JS -->
@@ -169,6 +184,39 @@
             <th>Actions</th>
         </tr>
     </table>
+
+    <!-- Modal para sa edit -->
+<div class="modal" tabindex="-1" role="dialog" id="editModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             
+                <label for="editFirstName">First Name:</label>
+                <input type="text" class="form-control" id="editFirstName">
+
+                <label for="editLastName">Last Name:</label>
+                <input type="text" class="form-control" id="editLastName">
+
+                <label for="editPhone">Phone:</label>
+                <input type="number" class="form-control" id="editPhone">
+
+                <label for="editAdress">Address:</label>
+                <input type="text" class="form-control" id="editAdress">
+
+                <label for="editEmail">Email:</label>
+                <input type="email" class="form-control" id="editEmail">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
     
     <script>
         async function callAllProfiles() {
@@ -260,9 +308,6 @@
                 .then(addProfile => {
                     console.log('Profile Summary:', addProfile.regNewProfile);
 
-                    if (addProfile.code === 'success') {
-                        //alert(addProfile.msg);
-
                         document.getElementById('inputFirstName').value = '';
                         document.getElementById('inputLastName').value = '';
                         document.getElementById('inputPhone').value = '';
@@ -270,9 +315,7 @@
                         document.getElementById('inputEmail').value = '';
 
                         localStorage.setItem('loginUser', JSON.stringify(addProfile.loginUser));
-                    } else {
-                        alert(addProfile.msg);
-                    }
+                    
                 })
                 .catch(error => {
                     console.log('Error in the server')
@@ -339,6 +382,75 @@
                                             <button class='btn btn-primary' onclick='editRow(this)'>Edit</button>`;
             }
         };
+
+
+        /*
+        // Function paraedit rows using promt
+        function editRow(button) {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            const updatedData = {
+                firstname: prompt('Enter updated First Name', cells[1].textContent) || cells[1].textContent,
+                lastname: prompt('Enter updated Last Name', cells[2].textContent) || cells[2].textContent,
+                phone: prompt('Enter updated Phone', cells[3].textContent) || cells[3].textContent,
+                adress: prompt('Enter updated Address', cells[4].textContent) || cells[4].textContent,
+                email: prompt('Enter updated Email', cells[5].textContent) || cells[5].textContent,
+            };
+
+            // Update the cells in the row with the edited data
+            cells[1].textContent = updatedData.firstname;
+            cells[2].textContent = updatedData.lastname;
+            cells[3].textContent = updatedData.phone;
+            cells[4].textContent = updatedData.adress;
+            cells[5].textContent = updatedData.email;
+
+            // Display a summary prompt
+            const summary = `Edited data:\nFirst Name: ${updatedData.firstname}\nLast Name: ${updatedData.lastname}\nPhone: ${updatedData.phone}\nAddress: ${updatedData.adress}\nEmail: ${updatedData.email}`;
+            alert(summary);
+        }
+        */
+
+        // Function para ma edit rows using modal
+        function editRow(button) {
+            const row = button.closest('tr');      // para sa row to edit
+            const cells = row.getElementsByTagName('td');
+
+            // to edit the current values of row and show sa modal
+            document.getElementById('editFirstName').value = cells[1].innerHTML;  // 1 start kase ang 0 ko is ID#
+            document.getElementById('editLastName').value = cells[2].innerHTML;
+            document.getElementById('editPhone').value = cells[3].innerHTML;
+            document.getElementById('editAdress').value = cells[4].innerHTML;
+            document.getElementById('editEmail').value = cells[5].innerHTML;
+
+            // Open the modal
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show(); // function to show the modal
+
+            // Handle save button click
+            document.getElementById('saveChanges').onclick = function () {
+                alert('Confirm Changes!')
+                // edited values in console
+                console.log("Edited First Name:", document.getElementById('editFirstName').value);
+                console.log("Edited Last Name:", document.getElementById('editLastName').value);
+                console.log("Edited Phone:", document.getElementById('editPhone').value);
+                console.log("Edited Address:", document.getElementById('editAdress').value);
+                console.log("Edited Email:", document.getElementById('editEmail').value);
+
+                // ibato editedd data sa table
+                cells[1].innerHTML = document.getElementById('editFirstName').value;
+                cells[2].innerHTML = document.getElementById('editLastName').value;
+                cells[3].innerHTML = document.getElementById('editPhone').value;
+                cells[4].innerHTML = document.getElementById('editAdress').value;
+                cells[5].innerHTML = document.getElementById('editEmail').value;
+
+                
+
+                // Close the modal and function to hide the modal
+                editModal.hide();
+            };
+        }
+
 
         function deleteRow(button) {
             const row = button.closest('tr');
