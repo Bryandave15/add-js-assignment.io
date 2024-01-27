@@ -13,7 +13,7 @@ app.use(
 )
 
 
-// PARA SA register
+// PARA SA inspection register
 const inspectionDB = [];
 
 app.post('/add-inspection', (req, res) => {
@@ -56,7 +56,7 @@ app.post('/add-inspection', (req, res) => {
 });
 
 
-//add profile
+//add profile para sa assignment
 const newProfile = [];
 
 app.post('/new-profile', (req, res) => {
@@ -89,7 +89,7 @@ app.post('/new-profile', (req, res) => {
 });
 
 
-// PARA SA register
+// PARA SA register - another modified
 const addProfile = [];
 
 app.post('/add-profile', (req, res) => {
